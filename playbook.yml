@@ -1,0 +1,57 @@
+---
+- hosts: all
+  tasks:
+    - name : install docker
+      apt:
+        name:  docker.io
+        state: present
+        update_cache: true
+      become: true
+
+    - name : install docker-compose
+      shell: sudo curl -L "https://github.com/docker/compose/releases/download/v2.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+
+    - name : install docker-compose
+      shell: sudo chmod +x /usr/bin/docker-compose
+    - name : node-exporter
+      apt:
+        name: prometheus-node-exporter
+        state: present
+        update_cache: true
+      become: true
+
+    - name : install Prometheus 1
+      shell: sudo mkdir -p /opt/prometheus_stack/{prometheus,grafana,alertmanager,blackbox}
+    - name : install Prometheus 2
+      shell: sudo touch /opt/prometheus_stack/docker-compose.yml
+
+
+    - name: copy docker-compose.yml
+      copy:
+        src: /home/user/kbi/docker-compose.yml
+        dest: /home/vagrant/
+    - name : cp docker-compose.yml
+      shell: sudo cp /home/vagrant/docker-compose.yml /opt/prometheus_stack/docker-compose.yml
+
+
+    - name: copy prometheus.yml
+      copy:
+        src: /home/user/kbi/prometheus.yml
+        dest: /home/vagrant/
+
+    - name : mkdir  prometheus/
+      shell: sudo mkdir /opt/prometheus_stack/prometheus/
+
+    - name : cp prometheus.yml
+      shell: sudo cp /home/vagrant/prometheus.yml /opt/prometheus_stack/prometheus/prometheus.yml
+
+    - name : start prometheus
+      shell: sudo docker-compose  -f /opt/prometheus_stack/docker-compose.yml  up -d
+
+    - name: copy grafana.yml
+      copy:
+        src: /home/user/kbi/grafana.yml
+        dest: /home/vagrant/
+
+    - name : start grafana
+      shell: sudo docker-compose  -f /home/vagrant/grafana.yml  up -d
