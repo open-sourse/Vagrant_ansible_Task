@@ -28,7 +28,7 @@
 
     - name: copy docker-compose.yml
       copy:
-        src: /home/user/kbi/docker-compose.yml
+        src: docker-compose.yml
         dest: /home/vagrant/
     - name : cp docker-compose.yml
       shell: sudo cp /home/vagrant/docker-compose.yml /opt/prometheus_stack/docker-compose.yml
@@ -36,7 +36,7 @@
 
     - name: copy prometheus.yml
       copy:
-        src: /home/user/kbi/prometheus.yml
+        src: prometheus.yml
         dest: /home/vagrant/
 
     - name : mkdir  prometheus/
@@ -50,7 +50,7 @@
 
     - name: copy grafana.yml
       copy:
-        src: /home/user/kbi/grafana.yml
+        src: grafana.yml
         dest: /home/vagrant/
 
     - name : start grafana
