@@ -53,5 +53,20 @@
         src: grafana.yml
         dest: /home/vagrant/
 
+    - name: copy datasource.yaml
+      copy:
+        src: datasource.yaml
+        dest: /home/vagrant/
+
+    - name: copy dashboard.json
+      copy:
+        src: dashboard.json
+        dest: /home/vagrant/
+
+    - name: copy dashboards.yaml
+      copy:
+        src: dashboards.yaml
+        dest: /home/vagrant/
+
     - name : start grafana
       shell: sudo docker-compose  -f /home/vagrant/grafana.yml  up -d

@@ -1,8 +1,15 @@
-version: '2'
-
+version: '3'
 services:
+
   grafana:
-    image: grafana/grafana-enterprise:8.2.0
+    image: grafana/grafana:8.2.0
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./dashboard.json:/var/lib/grafana/dashboards/dashboard.json
     ports:
-      - 3000:3000
-    user: '104'
+      - "3000:3000"
+
+volumes:
+    grafana:
